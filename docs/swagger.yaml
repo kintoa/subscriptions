@@ -1,0 +1,243 @@
+definitions:
+  dto.SubscriptionRequest:
+    properties:
+      end_date:
+        description: формат "MM-YYYY"
+        type: string
+      price:
+        type: integer
+      service_name:
+        type: string
+      start_date:
+        description: формат "MM-YYYY"
+        type: string
+      user_id:
+        type: string
+    required:
+    - price
+    - service_name
+    - start_date
+    - user_id
+    type: object
+  dto.SubscriptionResponse:
+    properties:
+      end_date:
+        description: формат "MM-YYYY"
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      service_name:
+        type: string
+      start_date:
+        description: формат "MM-YYYY"
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.Subscription:
+    properties:
+      end_date:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      service_name:
+        type: string
+      start_date:
+        type: string
+      user_id:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Апи агрегации подписок.
+  title: Subscription API
+  version: "1.0"
+paths:
+  /subscriptions:
+    get:
+      description: Возвращает список всех подписок
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.SubscriptionResponse'
+            type: array
+      summary: Получение всех подписок
+      tags:
+      - subscriptions
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новую подписку
+      parameters:
+      - description: Subscription object
+        in: body
+        name: subscription
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SubscriptionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.SubscriptionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создание новой подписки
+      tags:
+      - subscriptions
+  /subscriptions/{id}:
+    delete:
+      description: Удаляет подписку по ID
+      parameters:
+      - description: Subscription ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удаление подписки
+      tags:
+      - subscriptions
+    get:
+      description: Возвращает подписку по её ID
+      parameters:
+      - description: Subscription ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SubscriptionResponse'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получение подписки по ID
+      tags:
+      - subscriptions
+    patch:
+      consumes:
+      - application/json
+      description: Обновляет только переданные поля подписки (service_name, price,
+        user_id, start_date, end_date)
+      parameters:
+      - description: ID подписки
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Поля для обновления
+        in: body
+        name: subscription
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Subscription'
+        "400":
+          description: error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Частичное обновление подписки
+      tags:
+      - subscriptions
+  /subscriptions/total:
+    get:
+      description: Считает сумму всех подписок за выбранный период с фильтрацией по
+        user_id и названию сервиса
+      parameters:
+      - description: ID пользователя
+        in: query
+        name: user_id
+        type: string
+      - description: Название сервиса
+        in: query
+        name: service_name
+        type: string
+      - description: Начало периода (MM-YYYY)
+        in: query
+        name: start
+        required: true
+        type: string
+      - description: Конец периода (MM-YYYY)
+        in: query
+        name: end
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Подсчёт общей стоимости подписок
+      tags:
+      - subscriptions
+swagger: "2.0"

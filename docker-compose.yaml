@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: subscription_app
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: ["/app/entrypoint.sh"]
+
+  db:
+    image: postgres:15
+    container_name: subscription_db
+    restart: always
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

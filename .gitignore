@@ -1,0 +1,46 @@
+# === Go build ===
+/bin/
+/build/
+/dist/
+/out/
+/*.exe
+/*.dll
+/*.so
+/*.dylib
+*.test
+*.out
+
+# === Go vendor ===
+/vendor/
+
+# === Logs & temp ===
+*.log
+*.tmp
+*.swp
+
+# === Dependency directories ===
+/node_modules/
+
+# === IDE / Editor ===
+.vscode/
+.idea/
+*.iml
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Environment files ===
+.env
+.env.local
+
+# === Docker ===
+/docker-compose.override.yml
+/docker-compose.local.yml
+/.docker
+/db-data/
+/pg-data/
+
+# === Coverage / Testing ===
+/coverage.out
+/cover.html
