@@ -44,7 +44,7 @@ http://localhost:8081/swagger/index.html
 ├── dto/               # DTO для сериализации/десериализации
 ├── middleware/        # Middleware 
 ├── models/            # GORM-модели
-├── routes/            # CRUD-роуты
+├── routes/            # Роуты
 ├── main.go            # Точка входа
 ├── Dockerfile
 ├── docker-compose.yml
