@@ -40,7 +40,7 @@ http://localhost:8081/swagger/index.html
 ``` bash
 .
 ├── db/                # Инициализация БД
-│   └── migrations/    # Goose миграции
+├── migrations/    # Goose миграции
 ├── dto/               # DTO для сериализации/десериализации
 ├── middleware/        # Middleware 
 ├── models/            # GORM-модели
